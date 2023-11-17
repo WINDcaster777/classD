@@ -1,0 +1,33 @@
+p {
+    text-align: justify;
+    padding-left:50;
+    padding-right:50;
+}
+body{
+    background-color: rgb(56, 198, 241);
+}
+h1{
+    text-align: center;
+    color:white;
+    border: 1px solid white;
+    margin: 0px 50px;
+}
+p{
+    color: rgb(235, 234, 234);
+    text-align: justify;
+    text-indent: 100px;
+    margin: 50px;
+    
+}
+
+.dp{
+    height: 200px;
+    width: 290px;
+    box-shadow: 0px 1px 13px rgba(0,0,0,0.1);
+  }
+
+
+  footer{
+color: white;
+text-align: center;
+  }
