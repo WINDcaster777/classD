@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Guestbook</title>
+    <link rel="stylesheet" href="styles.css"/>
+    <link rel="stylesheet" href="sss.css"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script type="text/javascript">
+  // <![CDATA[
+  var colour="pink";
+  var sparkles=50;
+  var x=ox=400;
+  var y=oy=300;
+  var swide=800;
+  var shigh=600;
+  var sleft=sdown=0;
+  var tiny=new Array();
+  var star=new Array();
+  var starv=new Array();
+  var starx=new Array();
+  var stary=new Array();
+  var tinyx=new Array();
+  var tinyy=new Array();
+  var tinyv=new Array();
+  
+  window.onload=function() { if (document.getElementById) {
+    var i, rats, rlef, rdow;
+    for (var i=0; i<sparkles; i++) {
+      var rats=createDiv(3, 3);
+      rats.style.visibility="hidden";
+      rats.style.zIndex="999";
+      document.body.appendChild(tiny[i]=rats);
+      starv[i]=0;
+      tinyv[i]=0;
+      var rats=createDiv(5, 5);
+      rats.style.backgroundColor="transparent";
+      rats.style.visibility="hidden";
+      rats.style.zIndex="999";
+      var rlef=createDiv(1, 5);
+      var rdow=createDiv(5, 1);
+      rats.appendChild(rlef);
+      rats.appendChild(rdow);
+      rlef.style.top="2px";
+      rlef.style.left="0px";
+      rdow.style.top="0px";
+      rdow.style.left="2px";
+      document.body.appendChild(star[i]=rats);
+    }
+    set_width();
+    sparkle();
+  }}
+  
+  function sparkle() {
+    var c;
+    if (Math.abs(x-ox)>1 || Math.abs(y-oy)>1) {
+      ox=x;
+      oy=y;
+      for (c=0; c<sparkles; c++) if (!starv[c]) {
+        star[c].style.left=(starx[c]=x)+"px";
+        star[c].style.top=(stary[c]=y+1)+"px";
+        star[c].style.clip="rect(0px, 5px, 5px, 0px)";
+        star[c].childNodes[0].style.backgroundColor=star[c].childNodes[1].style.backgroundColor=(colour=="random")?newColour():colour;
+        star[c].style.visibility="visible";
+        starv[c]=50;
+        break;
+      }
+    }
+    for (c=0; c<sparkles; c++) {
+      if (starv[c]) update_star(c);
+      if (tinyv[c]) update_tiny(c);
+    }
+    setTimeout("sparkle()", 40);
+  }
+  
+  function update_star(i) {
+    if (--starv[i]==25) star[i].style.clip="rect(1px, 4px, 4px, 1px)";
+    if (starv[i]) {
+      stary[i]+=1+Math.random()*3;
+      starx[i]+=(i%5-2)/5;
+      if (stary[i]<shigh+sdown) {
+        star[i].style.top=stary[i]+"px";
+        star[i].style.left=starx[i]+"px";
+      }
+      else {
+        star[i].style.visibility="hidden";
+        starv[i]=0;
+        return;
+      }
+    }
+    else {
+      tinyv[i]=50;
+      tiny[i].style.top=(tinyy[i]=stary[i])+"px";
+      tiny[i].style.left=(tinyx[i]=starx[i])+"px";
+      tiny[i].style.width="2px";
+      tiny[i].style.height="2px";
+      tiny[i].style.backgroundColor=star[i].childNodes[0].style.backgroundColor;
+      star[i].style.visibility="hidden";
+      tiny[i].style.visibility="visible"
+    }
+  }
+  
+  function update_tiny(i) {
+    if (--tinyv[i]==25) {
+      tiny[i].style.width="1px";
+      tiny[i].style.height="1px";
+    }
+    if (tinyv[i]) {
+      tinyy[i]+=1+Math.random()*3;
+      tinyx[i]+=(i%5-2)/5;
+      if (tinyy[i]<shigh+sdown) {
+        tiny[i].style.top=tinyy[i]+"px";
+        tiny[i].style.left=tinyx[i]+"px";
+      }
+      else {
+        tiny[i].style.visibility="hidden";
+        tinyv[i]=0;
+        return;
+      }
+    }
+    else tiny[i].style.visibility="hidden";
+  }
+  
+  document.onmousemove=mouse;
+  function mouse(e) {
+    if (e) {
+      y=e.pageY;
+      x=e.pageX;
+    }
+    else {
+      set_scroll();
+      y=event.y+sdown;
+      x=event.x+sleft;
+    }
+  }
+  
+  window.onscroll=set_scroll;
+  function set_scroll() {
+    if (typeof(self.pageYOffset)=='number') {
+      sdown=self.pageYOffset;
+      sleft=self.pageXOffset;
+    }
+    else if (document.body && (document.body.scrollTop || document.body.scrollLeft)) {
+      sdown=document.body.scrollTop;
+      sleft=document.body.scrollLeft;
+    }
+    else if (document.documentElement && (document.documentElement.scrollTop || document.documentElement.scrollLeft)) {
+      sleft=document.documentElement.scrollLeft;
+      sdown=document.documentElement.scrollTop;
+    }
+    else {
+      sdown=0;
+      sleft=0;
+    }
+  }
+  
+  window.onresize=set_width;
+  function set_width() {
+    var sw_min=999999;
+    var sh_min=999999;
+    if (document.documentElement && document.documentElement.clientWidth) {
+      if (document.documentElement.clientWidth>0) sw_min=document.documentElement.clientWidth;
+      if (document.documentElement.clientHeight>0) sh_min=document.documentElement.clientHeight;
+    }
+    if (typeof(self.innerWidth)=='number' && self.innerWidth) {
+      if (self.innerWidth>0 && self.innerWidth<sw_min) sw_min=self.innerWidth;
+      if (self.innerHeight>0 && self.innerHeight<sh_min) sh_min=self.innerHeight;
+    }
+    if (document.body.clientWidth) {
+      if (document.body.clientWidth>0 && document.body.clientWidth<sw_min) sw_min=document.body.clientWidth;
+      if (document.body.clientHeight>0 && document.body.clientHeight<sh_min) sh_min=document.body.clientHeight;
+    }
+    if (sw_min==999999 || sh_min==999999) {
+      sw_min=800;
+      sh_min=600;
+    }
+    swide=sw_min;
+    shigh=sh_min;
+  }
+  
+  function createDiv(height, width) {
+    var div=document.createElement("div");
+    div.style.position="absolute";
+    div.style.height=height+"px";
+    div.style.width=width+"px";
+    div.style.overflow="hidden";
+    return (div);
+  }
+  
+  function newColour() {
+    var c=new Array();
+    c[0]=255;
+    c[1]=Math.floor(Math.random()*256);
+    c[2]=Math.floor(Math.random()*(256-c[1]/2));
+    c.sort(function(){return (0.5 - Math.random());});
+    return ("rgb("+c[0]+", "+c[1]+", "+c[2]+")");
+  }
+  // ]]>
+  </script>
+
+
+</head>
+<body>
+    <!--header-->
+    <div class="container">
+      <nav>
+            <div class="top">
+                <h1 class="text">Works of Aci</h1>
+            </div>
+            <div class="navi1">
+                <a class="link" href="profile.html">About me</a>
+                <a class="link" href="Home.html">Page 1</a>
+                <a class="link" href="Page.html">Page 2</a>
+                <a class="link" href="three.html">Page 3</a>
+                <a class="link"href="guestbook.html">Guestbook</a>
+                <a class="link"href="index.html">Back</a>
+               
+            </div>
+          </nav>
+        </div>
+        
+        <container>
+  <div class="auto">
+    <h1 style="margin-left: 120px;">The Misadventures of an Aspiring Artist</h1>
+    <hr>
+    <h5 style="margin-left: 120px;"><i>My Autobiography 2017</i></h5>
+    <hr>
+    <div >  
+      <img class="ponyo" src="pics/ponyo.gif"/>
+  </div>
+    <p>My name is Andrea Camille Antivola, or also known as Andrea. I was born somewhere in the sock island of the Philippines, particularly known as the island of Negros in May 21, 2004. As of now, I am seventeen years old continuing my studies here in Moonwalk. I enjoy aesthetics such as music and arts. I can play guitar and ukulele however I’m not good at such. I have my own art style that I should be proud of. I play mobile games too for my leisure time. I enjoy watching anime. My favorite genres are soft, cute, sad, weird, creepy, romance and tragedy. I love Ghibli movies so much too. 
+    </p><br>
+    <p>I went to an all girls catholic highschool which was pretty strict but it made me who I am right now. However, I enjoyed my highschool days so much even though it's hard to say I did because I didn’t experience having a dance with someone on JS Prom. Although, I experienced being punished to clean our garden and library by our previous principal for being late, having fun in joining clubs that creates a celebration every month, checking the color of your bra if its colored or not, cutting long nails on the door because you can't enter the building when it’s not short enough, creating songs for activities, having a single line in one file and etc. Which may seem so lame but it's quite cool and unique because there’s no other school I know doing those. I became religious and disciplined. I remember the first contest I joined, it was a pressure. And I felt disappointed when I only finished in second place. But people around me kept inspiring me to be better and gave me comfort that it was okay because I did not lose. It's either we win or learn.</p>
+  <p>
+    My life is surely full of serious adjustments, I grew up with my grandparents when they both died. I went back to my parents which was hard. My family broke up and we had to get separated from my father and move into Manila, the new normal, online classes. My father loved me but now he only sees me as his enemy. I came from an all girls catholic school. Now I have male classmates which is so unusual with me but overtime I'll get used to changes. People were like visitors in my life, they came and went. I had a lot of broken friends and I was there for them, but as soon as they were fixed they left me and I’m now the one who’s broken, but it didn't matter since I never failed to make everyone smile.
+  </p><br>
+  <p>One big past happening that made my life shift and I would never forget is when I had a gender crisis. I found myself liking a girl and to be honest I had a relationship with her. Being in a catholic school was hard in that kind of situation since it was one of the biggest rules, the rule “NO GIRL TO GIRL RELATIONSHIP”. I had to keep us in private and around the time everyone knew we were criticized. We were embarrassed in front of the whole school. But I never regret being with my ex-girlfriend since she had a big role in who I am right now and what we're going to be. I’m lucky that despite all that happened we’re still friends and we lasted almost 3 years too. </p><br>
+  <p>The best three words that would possibly and more likely describe my future is Happiness, Meaning or Purpose, and Death. I do believe that life is a roller-coaster; there's these ups and downs nowadays. I feel so down, I know in my near future I'd be happy, all my sacrifices, pains, loneliness and agony will finally pay off. I would find my meaning or purpose in this life because I know everyone and everything has its own purpose, even pain, even mistakes. Lastly, but definitely not the least; Death, everyone has its own ending, not only in life but also in relationships and many more. Sometimes we just have to accept the fact that we are all going to end or die. No one knows what will happen after death, some say there is life after death, and some may say there is reincarnation. For me it isn't that important, the important thing is you have lived a happy and righteous life and you have found the purpose of your existence.
+  </p><br>
+  </div>
+</container>
+
+<container>
+  <div class="takipsilim">
+    <h1 style="margin-left: 120px;" >Takipsilim</h1>
+    <hr>
+    <h5 style="margin-left: 120px;"><i>twilight</i></h5>
+    <hr>    <div >  
+        <img class="moon" src="pics/moon.gif"/>
+    </div>
+<p>Nakakita ako ng isang babae sa isang madilim na sulok ng kulungan, siya ay nakagapos sa kadena at sa bawat halikbi ng kanyang boses, sa bawat patak ng luha't dugo na nagsusumamo ay ramdam ko ang sakit na kanyang dinarama. Nais ko siyang tulungan, ngunit sa aking paghakbang papalapit sa babeng nasa takipsilim ay nararamdaman ko naman papalayo ako sa kanya. Iniabot ko ang aking nanlalamig na kamay at doon nanlamig ang buong katawan ko sapagka't nakita ko ang mukha ng kaawa- awang babae. Magkamukha kami kaso mas payat sya at halos wala na syang buhok at ngipin, at doon nagising ako sa pagkakatulog. 
+</p><br>
+<p>Oo, panaghinip pala ang lahat ng iyon. Nasa kwarto ko pa rin pala ako sa bahay at ninais kong lumabas ngunit may pandemya at lockdown gaya ng dati kaya ang nagawa ko lamang ay bumangon at titigan ang malaking salamin na maraming alikabok,  akin itong pinunasan. Tinignan ko ang aking mukha habang tumutulo ang luha ko sapagkat aking napagtanto na ang babaeng kamukha ko ay talagang ako. Nanlumo ako sa kadahilanang ako lamang ang nakakaalam.</p><br>
+<p>Ako ay may pisthantrophobia,  isang sikilohikal na sakit kung saan ako'y nahihirapang magtiwala ng aking mga nararamdaman, pinagdaraanan,  at pinag-iisipan. Matagal ko na itong karamdaman ngunit na palala lamang nitong quarantine. Sa tagal kong itinago ang sakit o hapdi ng aking napagdaana'y naiplano ng mahal na Dyos na maipanaghinip sakin iyon sa gitna ng pandemya dahil aking naisipan na ang ako mismo ang kumukulong sa sarili ko sa pagngiti at hindi pag-amin sa lahat ng nararamdaman ko.  Kaya siguro halos lahat ng tao hindi ako maintindihan. Ako na rin mismo ang gumapos sa sarili kong mga kamay sa kadena dahil ang problema't masasakit na aking napagdaana'y nagiging hadlang sa aking paglipat ng isang bagong pahina ng aking buhay. Madaming mga gabing nagigising parin ako sa masasamang panaghinip subalit pinapatahan ko ang aking sarili umaasang may pag-asa sa ginigising ko sa bawat umaga. May mga bagay din akong napag lalabasan ng hinanakit gaya ng pag guhit at pagsulat. 
+  </p><br>
+  <p>
+  Ngayong pandemya may kanya-kanya tayong problema at pinagdaraanan ang importante dito ay may mga taong may pakialam saatin na mapagkakatiwalaan at handang tumulong ano mang araw o oras.
+</p>
+  </div>
+</container>  
+
+<container>
+<div >  
+  <p class="warning">short stories ahead!</p>
+  <img class="medly" style="height: 100vh; width: auto; margin-left: 25%;" src="pics/medly.gif"/>
+</div>
+</container>
+
+<container>
+  <div class="seer">
+    <h1 style="margin-left: 120px;" >The Talented Seer</h1>
+    <hr>
+    <h5 style="margin-left: 120px;"><i>a masterpiece</i></h5>
+    <hr>    
+    <div >  
+        <img class="howl" src="pics/howl.gif"/>
+    </div>
+    <br>
+<p>Sometimes, otherworldly beings find interesting ways to try and contact you. They might use a Ouija Board, or maybe come to you in a dream, or sometimes they speak through another person. They each have their own style and preference that’s particular to them. The one who contacted Jack spoke to him through his computer, or, I guess you could say the communication was through onscreen text. The first time it happened, Jack had been sitting at his computer playing Solitaire. A blinking red light from the router indicated that his internet connection was down again. This was at least a weekly occurrence, and Jack was getting used to this spotty internet service. As he moved his cards, the game faded into a solid black screen and the red text appeared.
+
+  “Hi Jack, I need a favor from you. You’re a very special person and I know you’ll help me. I can’t ask this of just anyone. I really need your help.”
+  
+  Jack paused for a second. The router light was still blinking red. “Is this some sort of joke?” He couldn’t help but wondering.
+  
+  Several moments later the message continued, “Yes Jack, I know this is weird for you. But I don’t want you to worry. This is just a small, easy favor I need. I’ll make sure you’re rewarded.”
+  
+  Now nearly in a panic, Jack reached around and pulled the internet cable completely from the wall.
+  
+  “Still here, Jack. I don’t want to waste any more of your time so I’ll get right to what I need. Tomorrow when you go to work I need you to move the large potted plant that’s next to the elevator on the ground floor. All you have to do is pull it out three inches from the wall. If you do it at 8:17am nobody else will be in the area.”
+  
+  Jack sat there, refusing to respond, still trying to figure out what was happening.
+  
+  The writing continued, “Look Jack, I’m asking you because I KNOW you’ll do it. You won’t let me down. You’re special. We’ll talk tomorrow.”
+  
+  Jack pulled the power cord from the wall and the computer went blank. “Did that really just happen?” he thought.
+  
+  Still shaking from the experience, he took a warm shower and got ready for bed, convincing himself that he’d either had some crazy dream or that is was just some elaborate joke. But who would play that kind of joke on him? He didn’t really have friends, or enemies.
+  
+  He woke up the next morning feeling refreshed. Work would start at 8:30am, and Jack was never late. He pulled into the parking lot at 8:10am. Normally he’d just go right in, but the message had told him to move the plant at 8:17am. Was he really going to do it? Overnight, Jack’s fear had turned into curiosity. Let’s say he moved the plant, he wouldn’t be doing anything wrong or illegal, right? In Jack’s mind, the most reasonable course of action was to move the plant. He’d do it, nothing would happen, and he’d be able to put this whole crazy matter behind him. One minute before 8:17 Jack left his car and walked towards the building. He entered the foyer at the exact time he was supposed to. The message was right, nobody else was around.
+  
+  “Odd,” Jack thought. The building was normally busy this time of morning, but this temporary lull had been accurately predicted.
+  
+  “Fine! Let’s see what happens,” Jack muttered to himself.
+  
+  He walked up to the large potted plant placed firmly between the two elevators in the lobby of the ten story building. The plant looked like it was fake, a decoration people passed every day without really noticing. It was heavier than Jack realized. He put some might into his effort and pulled the plant out three inches to his best estimate. He stood back and looked at the plant, then looked around the lobby. People were coming in behind him now and the lobby was starting to fill up again. Nobody seemed to notice the plant was in a slightly different location, nothing seemed different at all. Jack skipped the next elevator and waited, waited for…something. But nothing happened. Finally Jack entered the elevator and made it to his 7th floor cubicle, on time like always.
+  
+  If you ever asked Jack’s coworkers to describe him, you’d hear words like polite, quiet, respectful, and competent. And while those words were all accurate, they gave little indication of the truth, the truth that Jack really didn’t like most people. That’s not to say he disliked them, just that he had very little interest in getting to know them or being their friend, save for one. Allie, the girl who sat two cubicles down from him, was the only person he wanted to know more about. With her big smile, blonde hair, and beautiful figure, Jack was very interested in learning all about her. Despite his lack of success with women in the past, he was actually doing a fair job getting to know her. Every morning as he passed her cubicle, he’d stop for a chat. The chats were one minute at first, then two minutes, then several minutes. Jack was surprised that she actually seemed to like him.
+  
+  On this particular morning, their daily conversation lasted only a couple of minutes. As they exchanged their morning greetings and talked about Allie’s wild night out, the elevator doors opened up behind them. Out hobbled James Bentley, the boss of both Jack and Allie.
+  
+  James’ loud complaining could be heard throughout the office, “My damn foot!”
+  
+  “What happened, James?” came the mumbled queries.
+  
+  “It’s that damn plant they have in the lobby. I ran right into it and twisted my ankle.”
+  
+  “James, you can barely walk. You need to go to the hospital,” came Allie’s concerned reply.
+  
+  “Can’t do it now. I have meetings all day. Too important to cancel. I’ll just have to tough it out.”
+  
+  Jack, feeling stunned, left Allie’s cubicle mid conversation and sunk down into his chair. It was his fault, he was sure of it. How could he have been so stupid and careless? Still, no use in worrying about it now. A twisted ankle would heal, everything would be alright.
+  
+  Upon his return home, Jack went immediately to his computer and turned it on. As soon as the computer booted up, the screen went black and a new message popped up.
+  <br>
+  <br>
+
+  <p>
+  “How was your day, Jack?”
+  
+  He sat there, staring at the screen, not knowing how to answer. The message on the screen continued, “Actually, I know how your day was, but never let it be said that I’m not polite. You’re wondering what’s going on. You want to know why James Bentley had to twist his ankle. Well Jack, this chain of events isn’t done playing out. I don’t want to tell you too much too soon, but this will all make sense to you in short order. Just go to work tomorrow like you normally do. Don’t worry about a thing Jack. You’ll be rewarded. You’re special. Talk to you tomorrow.”
+  
+  Jack sat back in his chair. What was going on? Who was this was sending him messages? Jack’s curiosity was fully engaged, and he was almost a bit excited to see what would happen next.
+  
+  The next morning at work started off as any ordinary day. Jack noticed that the plant had been pushed back fully against the wall, probably by the night cleaning crew. James Bentley showed up shortly after lunch, hobbling into the office on his one good foot.
+  
+  “Man this foot is killing me,” Jack could overhear him say, but apparently James still had a meeting he didn’t want to miss. It wasn’t until around 3 o’clock that Jack saw him again. James, who always seemed to prefer Allie over others, came limping up to her cubicle.
+  
+  “Allie, you’re not doing anything right now, are you?”
+  
+  “Um, no. Nothing that can’t wait until tomorrow I guess.”
+  
+  “Good, could you please drive me to see my Doctor? I probably should’ve gone yesterday, but I just couldn’t get away. This pain is just killing me right now and I don’t think I can drive myself, I barely made it here this morning and I don’t think I can even push the gas pedal right now. We can take my car if you want.”
+  
+  “Yeah that’s fine James, I don’t have a problem taking you.” Turning to Jack she said her goodbye, “See you tomorrow, Jackie.” She put on her coat and slowly followed James as he struggled down the hallway. She gave a half turn and a shrug in Jack’s direction, with a little smile as she walked away. Jack felt even lonelier than normal when she was gone.
+  
+  It was ten minutes later that they all heard the crash. It was preceded by the loud horn of an 18 wheeler and screeching brakes. The collision itself was a sickening thud of two large metal object colliding. Even on the 7th floor it was loud. The office workers gasped and ran to the windows.
+  
+  “Is that James’ car?” One of them asked.
+  
+  “Hard to tell from up here,” someone responded, “It’s so banged up.”
+  
+  The horrifying implication of what’d just happened came to Jack immediately.
+  
+  “No, no, no,” he though. “This can’t be true.”
+  
+  Shaking all the way, he ran to the elevator and went to the ground floor along with several others from the office. Some of them were crying. As they joined the growing crowd around the scene of the accident, Jack could hear the far off sound of emergency sirens. Looking past the gawkers, he could see that the 18 wheeler had hit James’ car broadside, its driver had been thrown out onto the pavement where he lay motionless. James was sitting in the passenger seat of his car, motionless but with a surprised look on his bloody face. Jack couldn’t tell if he was alive or dead. The driver’s side, where Allie was seated, had taken the hit. The space she’d been occupying had been compacted to a third of its original size. Allie’s head was smashed open and her twisted body was broken and battered. The crowd was stunned. Tears, screams, sirens; that was all Jack could hear. Without going back inside the building, Jack ran to his car and drove home, angry and sad.
+  
+  He made the journey home and to his computer. There the machine sat, he wanted to turn it on, but was afraid of what he’d find out. Was he really the one responsible for Allie’s death? The whole chain of events had started with him. He knew he was to blame. Jack reached for the power button, and then pulled his hand back. Finally, after several minutes, he found the mental strength to turn it on. The screen flickered and then went black, and the familiar text started appearing on the screen.
+  
+  “No Jack, it’s not your fault. I know you’re blaming yourself. But all people die eventually, some just sooner than others.”
+  
+  Jack stared at the screen. He resisted the urge to throw the monitor to the ground.
+  
+  After a moment, the writing continued, “Jack, I’m going to tell you something, and I really need you to seriously consider everything I’m about to say. You thought you were in love with Allie. The truth is, you just wanted to fuck her. And please excuse my language, but every once in a great while it’s best to be blunt. Jack, she wasn’t the one for you. She would’ve made your life miserable. Yes, you would’ve eventually found the courage to ask her out. She actually was interested in you. She thought you’d make a good “project.” Sad really, for her, not for you. I want you to think back to all the things she told you. Why did her last boyfriend break up with her?”
+  
+  “Because she cheated on him,” Jack mumbled under his breath.
+  
+  “Because she cheated on him, Jack. The same thing she would’ve done to you. She would’ve made you happy for about 2 months, and then miserable for the next 4 years. Sneaking around, laughing at you behind your back, spending all your money. Once you finally got rid of her, you would’ve been so jaded that you’d never date again. This is true Jack. I see all future possibilities, the ones that come to pass and the ones that don’t. You’ve seen how she really is Jack, but you let your lust for her blind you to the truth. Together, you and I have made sure you avoided that path. One more thing Jack, this isn’t done playing out yet. There’s more to come.”
+  
+  “No! Fuck you! You killed her!” Jack screamed and threw the monitor from the desk. It landed on the floor and sparked out.
+  
+  Jack got barely any sleep that night, and the next day he wasn’t sure he wanted to go to work, but the last words he’d been told had piqued his curiosity, and his anger had somewhat subsided. No work was done that day at the office. The company brought in grief counselors, people shared their thoughts, they cried, they hugged. James had actually survived the accident, but was in a coma. The doctors thought he might recover eventually, but nobody was really sure.
+  
+  Late in the afternoon, Jack was approached by Diego Salbara, the head of the division. Diego was blunt and upfront, and he offered James’ position to Jack. Technically it would be a temporary promotion, but James wouldn’t be back any time soon. Diego promised him that the promotion would be made permanent once enough time had passed.
+  
+  “Let’s keep this low key for now.” Diego told him. “I know it might seem quick, but the Lancaster project James was working on can’t be stopped. It’s too important to the company. I need someone in charge right away, this can’t wait.”
+  
+  Stunned, Jack accepted the promotion. He left work with a strange mixture of feelings, not really sure how he felt about anything. On his way home, he stopped at the electronics store and bought a new monitor. He made it home and powered up the computer. Once again the writing came on the screen.
+  
+  “Jack, I want to be the first one to congratulate you! I’m proud of what you’ve accomplished.”
+  
+  Jack stared at the screen.
+  
+  “Jack, I have to ask your forgiveness because haven’t introduced myself yet. I’m called the Seer. Like I told you before, I see what will be, and I see what can be. It’s a very powerful gift I have. But you know what, Jack? For all my power, I still can’t do anything corporeal. I can predict, I can see, and with enough effort, I can even communicate. But I don’t have a body, that’s something that was taken from me a long, long time ago. That’s why I need you Jack. I’m an artist of sorts, an artist of human manipulation. You’ll be my paintbrush and my canvas. I want you to work with me Jack. It’s all very simple, just perform simple tasks for me, from time to time.”
+  
+  Jack was becoming more and more curious.
+  
+  “And Jack, before you give me an answer, I want you to know a couple of things. First off, I’ll never lie to you. Secondly, I’ll never ask you to do anything which, taken by itself, is wrong or illegal. Yes, bad things will result, and sometimes people will die. But they’re going to die eventually anyways, right Jack? And the bad will always be balanced out by something good happening to you.”
+  
+  Jack winced at this last idea, but he fought the urge to turn the computer off. The Seer was right. Everyone would die eventually, why not let something good come of it? And what about never lying to him? If he’d known at the time that Allie was going to die, he’d have never gone through with the original favor. But as he thought more about it, he realized The Seer hadn’t lied to him, but had only withheld information. Still, Jack wondered if he could trust The Seer.
+  
+  “Work with me Jack, together we’ll make incredible things happen. I’m just asking you to perform little tasks from time to time. Oh, but these little tasks will have great consequences! They’re going to be beautiful Jack, and they’ll always end with a reward for you. That’s the beauty of my art, one single task produces something bad and something good. Oh, one last thing Jack, I can see you’re having trouble with this. If I stopped talking to you right now, it would take you about two weeks to decide to join me. But you know what Jack, you WOULD join me. That’s right, you’re going to say yes. So instead of waiting, why don’t you just say yes to me now? Let’s get started Jack. And when all this is over, you’re going to thank me. I promise you.”
+  
+  Jack considered what The Seer had just said. His initial feeling of revolt was slowly fading. He paused, and then for the first time, he placed his fingers on the keyboard and responded directly to The Seer. “What do you want me to do next?”
+  
+  _____________________________
+  
+  As years passed, Jack did every favor the Seer asked of him, and as the Seer had promised, Jack was rewarded for his actions each time. The rewards often came in unexpected and interesting ways. One of the more memorable experiences for Jack happened about 2 years after he first agreed to help the Seer.
+  
+  </p>
+  
+  <br>
+  <p>
+  “Jack, I need you to go downtown tomorrow,” the Seer requested. “Enter Garmin’s Liquor at exactly 12:37pm. A man will ask you a question. The answer you’re to give him is ‘twenty seven.’”
+  
+  As always, the Seer’s instructions were simple and direct, yet mysterious. The next day, as requested, Jack entered the store. In front of him, a burly construction worker was at the counter filling out a lottery playslip.
+  
+  “Let’s see here,” said the construction worker, “My birthday, that’s the 15th, my wife’s birthday, that’s the 24th, and my kids’ ages, two, ten and thirteen.”
+  
+  The man scratched his head and looked around, zeroing in on Jack, “Hey buddy! I need another number. Ya got one for me?”
+  
+  Jack smiled, “Twenty seven.”
+  
+  “Really? I was thinkin’ bout playin’ thirty five. But ya know what? I like your face, let’s go with twenty seven!”
+  
+  With that, the man completed his slip and paid for his lottery ticket. “See ya, pal!” he said happily and he patted Jack on the shoulder on his way out the door.
+  
+  Jack tried not to put any more thought into what would happen to this man. “Just let these things play out, Jack. You’ll never guess how things end up, so just let yourself be surprised,” the Seer had advised him. Still, it was impossible not to wonder about these things from time to time. He knew, considering the way the Seer worked, there was no way possible that he’d actually helped this man. But giving him a losing lottery number? That was too simple for the Seer. And he couldn’t imagine he’d actually given him a winning number. So that’s how Jack was surprised, when two weeks later, he ran into the same man again, this time at the grocery store.
+  
+  “Hey buddy! It’s you! I remember you! Check it out, I won!” Indeed, the man looked like a million dollars. Wearing new clothes, a new gold watch, and a big goofy smile, the man walked right up to Jack.
+  
+  “I didn’t think I’d ever see you again, but I’m glad you’re here. I coulda never won without you. Hey, lemme buy these groceries for you. No wait, that’s not good enough for you, you’re my good luck charm. Always gotta treat people right, that’s what my mom says.”
+  
+  Reaching into his pocket, the man removed his checkbook and promptly wrote Jack a check for ten thousand dollars. “It’s the least I can do for my good luck charm.”
+  
+  After thanking the man, and feeling a bit confused by the whole thing, Jack raced home to his computer. After turning it on, the Seer’s writing appeared on the screen. “Well Jack, how does it feel to be ten thousand dollars richer?”
+  
+  “It feels good. But I can’t help but wonder, we’ve never helped anyone before. Why are we starting now?” Jack asked that question with a tinge of guilt. He never liked to admit that people were being hurt by his actions, but in this case his curiosity overwhelmed any latent feelings of guilt.
+  
+  “Oh Jack, we haven’t helped anyone. Yes, that man is happy now, but he’ll have lost every last penny within two years. You saw it for yourself, he just gives money away. Old friends, lost relatives, they’re all going to come asking him for money. And there will be some very bad investments as well. The stress of losing everything is going to cause his wife to leave him. She’ll take the kids too. He’ll be alone and broke, a ruined man who would have been much better off if he’d never won. You needn’t feel bad Jack, it’s the man’s own stupidity and greed that will do this to him.”
+  
+  Jack felt some regret, but the Seer’s rationalizing, and focusing on his own reward, always put him at peace in the end.
+  
+  Through the years, no two tasks were ever alike. Sometimes the effects of his actions were direct and easy to see, other times they caused a chain reaction so complex that he simply could not follow it.
+  
+  “Go to the County Administrator’s building, park in space number 43 at 4:47pm.” came one such request. Jack did so, and two months later he met Donna, with whom he fell in love and ended up marrying. He wouldn’t have even known the two events were even related if he hadn’t asked the Seer about it.
+  
+  “Jack, when you parked in that space, you caused the person who would’ve parked there to park in a different spot, but she bumped the car next to her. She barely made a scratch, but she called her insurance agent anyway, causing him to leave the office late. He missed his train home, and while waiting for the late train, he was mugged and stabbed, he’ll never fully recover. The muggers took his credit cards and used them…..and Jack, I could keep going with this, but there’s another twenty three people involved. Sometimes these favors are going to be very complicated, but let’s just say your action ultimately caused Donna to be in the exact right place for you to meet her.”
+  
+  Jack’s relationship with the Seer grew. Though remaining mostly mysterious, the Seer divulged enough information over time so that Jack could get a generalized understanding of the Seer’s history. From historical references, Jack knew the Seer was thousands of years old. When still alive, the Seer had been a powerful fortune teller and artist, who foretold future happenings through paintings. A foolish king, who misinterpreted the Seer’s prediction and lost a battle as a result, had the Seer executed. Unencumbered by physical senses, and existing in a lonesome void, the Seer’s abilities expanded exponentially. Finally learning to communicate with the living, the Seer began reaching out to those who would respond, including Jack. And of course, the Seer knew everything about Jack. In all, it was as much of a friendship as one can have with a dead person. And Jack was grateful to the Seer too. He had a nice job, a nice house, a beautiful wife, and people respected him. He was happy, which is something he never really felt before the Seer contacted him.
+  
+  Twelve years in total passed, twelve good years for Jack. Task after task was completed, usually about one every month. Jack, sitting in the office of his large rural house, was contacted by the Seer once again.
+  
+  “Hi Jack, I have a favor to ask of you. This one’s the easiest yet, you don’t even have to get up. Call Riago’s Pizza in exactly two minutes, let the phone ring three times, then you can hang up.”
+  
+  Jack smiled, nice and easy. He no longer wondered about how these tasks would play out. He trusted the Seer and simply did as he was told. Jack made the call, exactly two minutes later.
+ </p> 
+  
+  
+  <br>
+  <p>
+  The quietness of the household was broken 30 minutes later by the ringing doorbell. “That’s odd,” Jack thought. Neither he nor Donna were expecting anyone. Jack looked out the peephole and saw a pizza deliver boy. The logo on his cap said “Riago’s Pizza”.
+  
+  Jack opened the door. “Here’s your pizza,” said the boy as he thrust it into Jack’s hand.
+  
+  “But I didn’t order this.” Jack argued.
+  
+  “Look, I don’t give a damn if you ordered it or not. Mr. Riago told me to take it here, so that’s what I’m doing.” the delivery boy argued, as he looked increasingly annoyed and spat in the bushes.
+  
+  Jack looked at the boy in front of him. He looked to be about seventeen years old, but the most noticeable thing about him was his size, he was huge. Probably about six and a half feet tall, and very muscular.
+  
+  “It’s already paid for by credit card, just take it, because I’m not driving it back.” The boy put out his hand for a tip.
+  
+  “I, I don’t have any cash on me.” Jack told the truth.
+  
+  “Whatever,” came the disgusted reply. The boy looked past Jack into the house, then turned and walked slowly to his waiting car, looking over his shoulder as he walked.
+  
+  Jack closed the door and took the pizza to the living room, where Donna was watching TV. After explaining what had happened, he excused himself to go to his office, promising to return shortly.
+  
+  Donna opened the pizza and took a piece. “Come back soon sweetie, this pizza’s got all your favorite toppings on it.” Donna giggled as she took a bite.
+  
+  Arriving at his computer, the Seer’s words appeared on the screen. “Confused, Jack? Don’t be. Your neighbor down the road ordered the pizza. Mr. Riago told that boy the correct address, but a ringing phone made it difficult for him to be heard clearly. Still, give the boy credit, he got the street right at least.”
+  
+  “So my reward is a pizza?” Jack typed, a little confused.
+  
+  “Yes Jack, your reward is a pizza, and also the chance to spend a little time with your wife. Go down there, share the pizza, enjoy it. When you’re done, make love to Donna. That’s not one of your tasks, that’s just some advice I think you should follow. Oh, by the way, your neighbors who ordered the pizza are arguing right now, over the silly fact that the pizza didn’t arrive. Some of the things people argue over amaze me, they really do. Their fight is going to get very heated, but you don’t need to worry about that. Go, enjoy your night.”
+  
+  Jack followed the Seer’s advice, cuddled with Donna as they enjoyed their meal, then made love to her on their big, comfortable living room couch. Donna fell asleep on the couch shortly after 11:00pm. Jack lay there awake, this latest favor, it just felt odd. Carefully extracting his arm from under Donna, Jack left the living room and headed upstairs. Sitting down at the computer, Jack typed, “Are you there?”
+  
+  “Yes Jack, I’m actually always here. I’ve been waiting for you to come back. That pizza delivery boy. He’s quite a specimen, isn’t he?”
+  
+  Jack looked quizzically at the screen.
+  
+  The seer continued, “He’s a horrible employee. He was hired only three days ago and already Mr. Riago wants to fire him, but as a physical specimen, he’s strong, fast, and VERY observant. For example, he noticed that you didn’t lock the front door after he delivered your pizza.”
+  
+  “What?” Jack said aloud as he started to get up.
+  
+  “Sit down Jack. I need to tell you something important, and locking the door now won’t change your situation.”
+  
+  Jack slowly took his seat again at the computer, looking behind himself as he did so.
+  
+  “You see Jack, it’s true that I never lied to you. Everything I’ve ever told you is 100% honest. But yes, I’ve withheld certain facts. You see, I told you that every task causes something bad to happen to someone else and something good to happen to you, but there’s a third thing. There’s an ultimate goal that each task was working toward. Remember Allie? Of course you do. What you probably don’t remember about her is that she was helping to pay her brother’s way through college. When she died, he had to drop out. He was going to be a great psychologist, but now he works in a factory instead. That’s really too bad for our pizza delivery boy, he could’ve used a good therapist a few years ago, but that good therapist wasn’t there for him, instead he got some Freudian quack. And remember our lottery winner? Yes you do. He was a neighbor to our pizza boy, after he lost all his money of course. He beat the boy senseless after the boy jumped into the street in front of his car. Quite a traumatic memory for our young lad. And his mother didn’t care about that incident, didn’t protect the boy at all. She couldn’t, not after using all the drugs given to her by her boyfriend, who happened to be one of the muggers who robbed that insurance agent. He bought the drugs with the money he made from the robbery. Do you see now the scope of my artistry?”
+  
+  Jack sat, glaring at the monitor. He wanted to get up, to check on Donna, but he was too scared to move.
+  </p>
+  
+  
+  <br>
+  <p>
+  The Seer continued, “Jack, you’ve done over a hundred tasks for me, and each one has served an ultimate purpose, to psychologically destroy this boy, turn him into a monster, and to bring him here tonight. Don’t you see Jack? This involved tens of thousands of people, and billions of possibilities. If you had failed to complete even one of the tasks, the whole chain would’ve collapsed. This was orchestrated by me, and set in motion by you. Together we’ve done something wonderful, this is a masterpiece of human manipulation. Our masterpiece. And it all begins and ends with you, two perfect points in time. Tonight, wrong address, no tip, this poor boy finally snapped. He’s downstairs right now. He’s slitting Donna’s throat, at this exact moment.
+  
+  Jack could hear a short, muffled scream coming from the living room, followed by a gurgling noise.
+  
+  “No!” Jack screamed and stood up, starting to run downstairs.
+  
+  “Jack, stop!” The voice startled Jack. It was inside his head. For the first time, the Seer was talking to him directly. It was a pleasant voice, a feminine voice. “You can’t do anything, she’s already gone. He’ll be coming for you shortly, and you can’t stop him.”
+  
+  “But why?” Jack cried with tears welling up in his eyes.
+  
+  “It’s not an artistic masterpiece if it doesn’t begin and end with you, Jack.” Her voice was soothing. “I want you to appreciate the fact that I’m talking to you directly. This requires all of my energy, and as a result, I’ll have to rest for several years before I can contact anyone again. That’s how special you are to me. Please don’t feel bad about this, Jack. I want you to take a moment and enjoy our accomplishment as much as I do.” The voice paused briefly, and then continued. “Do you know what Jack? If I’d never contacted you, you would have lived for eighty five years. Eighty five boring, meaningless, and bitter years. And when you died, nobody would’ve been at your funeral. I gave you twelve great, meaningful years. You were happy, and together we did something beautiful, something unique.”
+  
+  Jack paused a minute and considered his twelve years of happiness, and his tears of sorrow mixed with tears of joy. He turned and looked at the computer, while behind him, the massive hulk of the demented delivery boy appeared in the doorway, a bloody knife in his left hand.
+  
+  On the screen, the last words from the Seer appeared, “Don’t you have something to say to me, Jack?”
+  
+  Jack wiped his tears, and absorbed everything the Seer had just told him.
+  
+  As the hulk started stepping closer to him, Jack said mouthed his final words, “Thank you.”</p>
+  </div>
+</container> 
+
+<container>
+  <div class="seer">
+    <h1 style="margin-left: 120px;" >I Called Him Love</h1>
+    <hr>
+    <h5 style="margin-left: 120px;"><i>A big plot twist</i></h5>
+    <hr>    <div >  
+        <img class="tulip" src="tulip.jpg"/>
+    </div>
+<p>I don’t want to scare anybody but I want to share this to everyone. But rule number one don’t call this a creepy story because it isn’t one. This is an expression of gratitude towards a friend, a friend who was always been there for me, who never left me until such then. He watched over me as I was growing up and was the best friend any kid could ever have even though I couldn’t really remember that time, He was always there, even though I couldn’t see him, and he was always acting in my best interests, even if I couldn’t understand. If you’re lucky enough, you might have a friend like this too. I think I should let you read his letter first. 
+  <br>
+</p>
+<p>
+  Last May 21, 2020, it was my 16th year; I came to my bedroom because soon, my day will be over… I had an amazing day. I checked what time it was, it was 11:04 pm and so I decided to take a nap.  I was walking towards my bed when I slipped over my memory box.… I got excited to open it even though it was a bit late. So, I decided to open it because, why not? I just want to bring back the feeling of being a kid and reminisce from the memories I had… But there was something unusual. Inside the box was an artwork case, I don’t remember putting that there, it was never mine too. So, I went to open it and I saw a bunch of art mediums, but what caught my eye was a vintage paper folded on top. I opened it, initially I thought it was a message my mom had written for me that I’d never read as intended, but I unfolded it, and this is what I found:
+</p>
+<hr>
+<p class="letter"><i>Andrea,</i></p>
+<p class="letter"><i>I hope you find this one day… I’ve watched you put memorable things in it, and I think I know how to save this so that you’ll find it. Seeing as it’s time for me to go, I want to leave you this last little message. I know you never met your father, but to me he was Col. Ernest Mira, as I’m sure your mother told you. He was a good man, one with the pride of a lion, the strength of a bear and a heart of pure gold. Truth is, I was almost like his son long before you were born. I was his second in command and served with him for four years. I watched as your mother wept when she heard the news, her belly swollen with your soon-to-be debut into this world, and I stayed with her every second of every day. That was, until the day you came into the world- then my focus shifted to you. I watched as they cleaned you on the hospital and handed you to your mother, and she seemed to look right at me with a knowing eye as I stood over the both of you, almost as if she’d known along, and I’d be willing to bet my last penny she did. I’ve watched you grow and I remember everything, even the things you don’t. You always were such a happy baby and you had seemed to have inherited your father’s sense of humor. When you were getting to be four months old, you would do just about everything to hinder your mother’s attempts at changing you, laughing all the while. You were a wild one at heart, just as you are today. Just like Ernest.</i></p>
+<p class="letter"><i>When you were about six months old we would play all the time. We had one game in particular, where I would grab your toes and tickle your belly. You would love it, though when your mother came in I’d have to stop, and it always perplexed her as to why you’d abruptly start crying- after a while, she seemed to think you didn’t like her, which is when I realized that I had to back away some. When you were one year old you seemed to develop a sixth sense for me and although you couldn’t really see me so much or so well anymore, you knew I was there. I couldn’t play with you as much as before because I knew it would only hurt you in the long run, but I always kept guard. I knew you remembered seeing me because you had a way of testing my presence, you’d throw toys into the corner where I stood and then wait to see if I would play with them. Now, I know you won’t remember this, but once you threw a bear and a ragdoll at me, and because your mother was busy in the kitchen making dinner, I kept you entertained by putting on a little show. It was nothing special; I just made them dance a little. You were laughing loudly and your mom came in to see what was so funny, but when she saw, she wasn’t laughing. I bet you could mention the bear and ragdoll dance even today and the color would run right out of her cheeks, but do me a favor and don’t. I think it would be kinder to ask if you ever threw the toys into the corner, that isn’t quite as bad a memory for her as the dancing is.</i></p>
+<p class="letter"><i>Do you remember your first word? I do… “Love” Ha-ha. your mother made damned well sure you knew just how much you were cherished by her, every moment of every day and she would always say, “Love you baby…” I remember you tugging at my heart string something awful once, when your mother was changing you in the bathroom this one time. You seemed to have caught my reflection in the mirror behind her, and you pointed and said Love (well, more of a “wuv”, but your mother knew), and she laughed and affirmed it. It was your only word for a time, but as I walked out of the reflection you started getting restless and I knew again that I had to be stealthier. You were growing more and more every day now, and I couldn’t afford to break my promise to your father, which is why I would have to retreat yet again.</i></p>
+<p class="letter"><i>I broke the rules many times to protect you, for that promise to your father was everything to me. I remember when you were three and had mastered walking; you were a regular little scout. You could never keep still- those little legs had opened up a whole new world to you and you weren’t shy at all about exploring it. One day you were with your mother in the market, and a lady with a shiny purse caught your eye. You went running after her, just as another shopper was running with her trolley in front of her, coming the other way. She didn’t spot you, and because you were running after the purse, you didn’t see her either. Breaking the rules was not allowed, but allowing you to get hurt wasn’t okay either. By the time you noticed her it was already too late, and you fell on your bottom before you could scamper out of her way. Left without any other option, I sent that trolley flying into the side of a freezer and as it crashed, that woman screamed blue murder, and “A-A-A man in a uniform!” she screamed. You simply giggled as the crowd gathered and your mother came running. When she found you at that scene you were safe and sound, and you pointed to the trolley that had smashed the freezer window. You know what you said to her then? “Love mommy.” I was hiding by then, embarrassed to have created such a scene, though I have to admit I was laughing on the inside. As you grew and became more aware so did I. I finally knew when I could and couldn’t intervene. Doing too much would hurt the both of us, so I chose my moments carefully. You were a smart kid, just like your father, and most of the time knew how to handle any and every situation. If there was an option, you took it, though I slipped up a few times as you were growing up, I do think I did well to keep an eye on you. It was just the little things to make your life a bit easier, things you probably won’t remember, like putting your piano music sheets into your bag at night, turning off your television when you fell asleep, pulling the sheets over you on the colder nights, sorting your drawers, setting your alarm clock, closing your windows and door… You caught me doing one or two of these things a few times, and I want to take the time now to apologize for scaring you.</i></p>
+<p class="letter"><i>This one time you were doing your homework and fell asleep at your desk, so I filled in all the answers for your math quiz. You’d made such a fuss to your mother earlier about how strict the teacher was about homework and I knew you knew the answers anyway, but you suspected more than ever when you woke up and found that whole half a sheet you left incomplete was done. You were older and had forgotten that we were friends, things you saw in the media about ghosts scared you- and you had every right to be afraid. I just want to say I’m sorry. I never meant to make you cry. If only I had taken a little extra care you’d never have known. I just wanted to keep you safe and happy. As you matured you began to take form as a little lady and as such, and you began to know the evil of men. Though you had your wits about you, you were always taking stupid risks, and watching over you became a little more of a worry for me. Gradually, I had to expose myself more and more, most memorably that night when that no-good boy you brought home started putting the moves on you. Your mother was at work, he was only after one thing, and although I knew it wasn’t my place to choose for you, you were still only a baby girl, just fifteen years old… As he got on top of you and started undressing you, he took his top off and began whispering those sweet things, and your face said it all. You were scared. When you told him to stop and he wouldn’t, and when you tried to push him off and he got angry, when he hit you and finally tried to put his hand up your skirt, all the evil I kept inside of me broke free at that moment and it was something I couldn’t control. My rage boiled over as I began to release my anger, the lights flickering, the TV volume rising, the doors and windows crashing open and shut. The keys on the piano began to rattle and with your fathers roar, I yelled, “Get out of the house boy!” He ran out of that room and you tried to follow, but I slammed that door in your face and wouldn’t let the handle go until your mother pulled into the driveway… I’m so sorry kid, that whole thing traumatized you for a while… You became more frightened of me than ever, having such an experience, and I knew from then on in spite of how much I loved you, we could never be friends. Not after what I’d done. Some nights you used to sit awake late into the evening, watching for me, and I’d have to sit in the darkest corner, looking right back at you, unable to reassure you that I wasn’t here to cause you harm. You used to scream, “I hate you! Get out! Leave me alone!” And just as you used to do as a toddler, you would throw things into my corner, only instead of toys for me to play with, this time it was heavy books, CD cases, Some of your art mediums or anything you could get your hands on to get me to move. You used to sit in your bed watching that corner… I always felt terrible about what I did. I’d almost broken that promise to your father- but more importantly, I’d almost broken the personal promise I’d made to you. It was like that until the night you tried to make peace with me, that night you sat up in your bed and said, “If you’re here, I’m sorry, you were only trying to stop him…” I wanted to say something, but I couldn’t, even as you shuffled around nervously and called, “You’re here right? Could you show me a sign?” I wanted so badly to give you something, anything to show you I was there and that I’d heard that, but fearing that you would lose it if I did, I kept silent and just nodded, in that dark corner where you couldn’t see me.. You have to know I was never mad at you, you were just a little girl and that little prick tipped me over the edge… Promise me you’ll never do anything like that again, won’t you?</i></p>
+<p class="letter"><i>It’s your sixteenth Birthday today, which is exactly why I’m writing this to you. I want to wish you a happy birthday. I’m sure your dad’s getting sick of keeping that bar stool open for me. Live a good life, try not to forget about me, and know you turned out great. Your father would be so proud of you... This letter is my present to you, and don’t you worry about the spooky corner anymore, my final order is complete. I don’t know about you, but I think this trooper deserves a drink; you sure were a handful. If you find this one day, try calling out to me... But I’m sorry to say I will be moving on to my journey. My mission here is done, and it’s a job-well-done. I got to finally rest. Kindly know this, I loved you. Take care, be safe, and live a happy life. I hope you find a right guy you’d be with… just like your father. 
+  LOVE</i></p>
+  <hr>
+<p>I was gob smacked when I read this letter; everything finally made sense. All the things that happened when I was growing up. I’d always thought I was seeing things until that day when my ex-boyfriend almost raped me. I’ll be the first to admit that I was scared of him, because I didn’t understand what he was, why he was there or what he was after, but now I see that I had it all wrong. A few days after reading the letter, I asked my mom a few questions about the spooky things that happened when I was growing up. She was very nonchalant about the whole thing- until I mentioned what happened in the market. There, she stopped cleaning, set down her cloth, turned to me and smiled. “You always had a guardian angel watching over you, honey. I don’t know if it was your father or not, but who or whatever it was, it made sure nothing bad ever really happened to you.” As she turned around and began cleaning the dishes, she asked, “So I guess you met it then, right? Your spirit friend?”</p>
+<p>“Not exactly, he left something for me.” I went upstairs, brought my memory box down and showed her the letter on the art case. My mother was crying by the time she finished and she told me all about my dad’s friend… “He was a kind boy… Matt brought him home once to meet me and he had a certain thing about him. That man was as loyal as a dog to your father; he had a love and respect for him that even I was intimidated by at times… When he came to our home on leave, Matthew nearly had to order him to make himself at home, and he even had to be asked to take his uniform off. He looked up to Matthew almost like a boy looks up to his father. I don’t really know his background but I remember your father telling me that he was a good drinking partner, a fine soldier, and an invaluable friend.” She took a deep breath and choked back a few of her tears before continuing on. “They found that poor boy and your father all alone in a building that had been overrun by their enemy. They’d been out on recon, and their team got separated when they came under fire. The rest of the boys on your father’s team survived, but those two weren’t so lucky… The way they found them was peculiar,” she swallowed heavily, looked me right in the eye and said, “That boy was found on top of your father, riddled with bullets… he was shielding him right up until the moment he died. He could have gotten away but he refused to leave your injured fathers side.” With that we both burst into tears… Love. That’s exactly what he was, he was a guardian. I’d never had any reason to be afraid of him, and I’d have given anything just to tell him I was sorry and that I loved him back. I had no right to have done all those terrible things I did to him at the end, I realized, and I realized that he had loved my father so much not even death could keep him from that promise he’d mentioned in the letter. When I asked what the promise was, my mother looked at me and with tears in her eyes said, “It was made in this very house while they were setting up your room, it was just-”
+</p>
+<hr>
+<br>
+<p style="margin-left: 55vh;"><i>"No matter what happens promise me you'll watch over my daughter"</i></p>
+</div>
+</container>
+
+</body>
+</html>

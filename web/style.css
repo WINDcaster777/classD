@@ -1,0 +1,170 @@
+.guestbook {
+  font-family: Arial, sans-serif;
+  margin: 10;
+  padding: 30px;
+  position: fixed;
+  top: 115px;
+  left: 15px;
+  box-shadow: 1px 2px 5px 1px rgba(0,0,0,0.5);
+  color:rgb(255, 0, 157) ;
+}
+
+
+#guestbook-container {
+  margin-bottom: 20px;
+}
+
+.forme {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 0 auto;
+  position: relative;
+}
+
+label {
+  margin-top: 10px;
+}
+
+input[type="text"],
+textarea {
+  padding: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  color: white;
+  background-color: rgb(255, 0, 157);
+}
+
+#message-list {
+  list-style-type: none;
+  padding: 0;
+
+}
+
+.message-item {
+  background-color: #f1f1f1;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  width: 300px;
+}
+
+.message-item p {
+  margin: 0;
+}
+
+#message-container {
+  max-width: 400px;
+  margin-right: 100px;
+  float: left;
+  color: rgb(255, 0, 157);
+
+}
+
+#message-viewer {
+  max-width: 1000px;
+  margin-left: 100px;
+  float: left;
+}
+
+#viewer-content {
+  background-color: #f1f1f1;
+  padding: 10px;
+}
+
+.mess{
+  padding-left: 300px;
+  top: 30px;
+  position: absolute;
+}
+.msg{
+  position: fixed;
+  font: rgb(255, 0, 157);
+  margin-left: 73%;
+  margin-top: -500px;
+  background-color: rgb(240, 240, 240);
+  width: 300px;
+  margin-right: 5px;
+}
+.mg{
+  position: fixed;
+  font: rgb(255, 0, 157);
+  margin-left: 48%;
+  margin-top: -500px;
+  background-color: rgb(240, 240, 240);
+  width: 300px;
+  margin-right: 5px;
+}
+
+.space{
+  color: white;
+  width:auto;
+  height: 10px;
+  background-color: white;
+}
+
+.paw{
+  height: 100px;
+  margin-left: 25px;
+}
+
+.hi{
+  text-align: center;
+}
+
+.tt{
+  text-align: center;
+  width: 250px;
+}
+
+
+.gbgb {
+    background-color: #FFB5D9;
+    padding: 20px;
+    margin: 20px;
+    width: 80%;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+}
+
+input[type="text"] {
+    padding: 10px;
+    margin: 10px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    margin: 10px 0;
+    background-color: #F26D7D;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #E54A5B;
+}
+
+textarea {
+    padding: 10px;
+    margin: 10px 0;
+    width: 100%;
+    box-sizing: border-box;
+    resize: none;
+}
+
+span {
+    display: block;
+    margin: 10px 0;
+}
+
+.pat{
+  position: fixed;
+  margin-left: 50%;
+  margin-top: -500px;
+  box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+}

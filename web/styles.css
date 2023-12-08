@@ -1,0 +1,206 @@
+body{
+    background-color: white;
+    margin: 0;
+}
+.container{
+    height: 100vh;
+    width: 100%;
+    position: relative;
+}
+nav{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    --color: #E1E1E1;
+    background-color: #F3F3F3;
+    background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
+        linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
+    background-size: 55px 55px;
+    color: white;
+    box-shadow: 1px 0px 3px 2px rgba(0,0,0,0.5)
+    
+    
+    
+}
+
+.navi1{
+    float: right
+}
+.link{
+    text-decoration: none;
+    background-color: gray;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 15px;
+    font-size: 10px;
+    margin: 2px;
+    position: relative;
+    top: -40px;
+    right: 10px;
+    font-family: Verdana;
+    transition: 0.2s;
+}
+.link:hover{
+    color: lightpink;
+    padding: 10px;
+    background-color: white;
+}
+.text{
+    margin-left: 15px ;
+}
+.side-profile{
+    height: 95vh;
+    width: 400px;
+    margin-left: 15px;
+    background: white;
+    margin-top: -525px;
+    box-shadow: 1px 2px 5px 1px rgba(0,0,0,0.5);
+}
+
+.img{
+    height:60vh;
+    width: 100%;
+}
+.name{
+    position:absolute;
+    top: 505px;
+    left: 30px;
+}
+.school{
+    background-color: white;
+    height:760px;
+    width: 500px;
+    box-shadow: 1px 2px 5px 1px rgba(0,0,0,0.5);
+    margin-top: -625px;
+    margin-left: 450px;
+}
+h1{
+    color: rgb(255, 0, 157);
+    font-size: 10px;
+}
+
+  h2{
+    color: rgb(255, 0, 157);
+    text-align: left;
+  
+  }
+
+  h5{
+    color: gray;
+  }
+
+  
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    height: 475px;
+    width: 70vh;
+    position: fixed;
+    margin-top: -540px;
+    margin-left: 20px;
+    font-size: 11px;
+  }
+
+   
+  .tabs label {
+    order: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 2rem;
+    margin-right: 0.2rem;
+    cursor: pointer;
+    background-color: pink;
+    font-weight: bold;
+    transition: background ease 0.3s;
+    color: gray;
+    font-size: 12px;
+  }
+   
+  .tabs .tab {
+    order: 9;
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    display: none;
+    padding: 1rem;
+    background: white;
+    padding: 20px;
+    box-shadow: 1px 2px 5px 1px rgba(0,0,0,0.5);
+    z-index: 1;
+    color: grey;
+  
+  }
+    .tab .tabs :hover{
+    color: lightpink;
+    padding: 10px;
+    background-color: pink;
+    z-index: 1;
+
+}
+  .tabs input[type="radio"] {
+    display: none;
+  }
+   
+  .tabs input[type="radio"]:checked + label {
+    background: #fff;
+  }
+   
+  .tabs input[type="radio"]:checked + label + .tab {
+    display: block;
+  }
+   
+  @media (max-width: 465px) {
+    .tabs .tab,
+    .tabs label {
+     order: initial;
+    }
+   
+    .tabs label {
+      width: 100%;
+
+    }
+  }
+   
+  .class {
+    background: pink;
+    min-height: 50vh;
+    box-sizing: border-box;
+    font-weight: 300;
+    line-height: 1.5;
+    max-width: 60rem;
+    font-size: 110%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+  }
+ 
+.sideee{
+top:310px;
+left: 1030px;
+position: fixed;
+height: 52vh;
+}
+
+.wc{
+  top: 120px;
+  position: fixed;
+  left: 990px;
+}
+
+h4{
+  color:rgb(255, 0, 157) ;
+}
+
+.pix{
+  top: -100px;
+  margin-left: 500px;
+
+}
+
+.teletabies{
+  height: 75%;
+  width: auto;
+}
+

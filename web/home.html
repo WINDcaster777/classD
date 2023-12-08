@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Guestbook</title>
+    <link rel="stylesheet" href="styles.css"/>
+    <link rel="stylesheet" href="sss.css"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript">
+  // <![CDATA[
+  var colour="pink";
+  var sparkles=50;
+  var x=ox=400;
+  var y=oy=300;
+  var swide=800;
+  var shigh=600;
+  var sleft=sdown=0;
+  var tiny=new Array();
+  var star=new Array();
+  var starv=new Array();
+  var starx=new Array();
+  var stary=new Array();
+  var tinyx=new Array();
+  var tinyy=new Array();
+  var tinyv=new Array();
+  
+  window.onload=function() { if (document.getElementById) {
+    var i, rats, rlef, rdow;
+    for (var i=0; i<sparkles; i++) {
+      var rats=createDiv(3, 3);
+      rats.style.visibility="hidden";
+      rats.style.zIndex="999";
+      document.body.appendChild(tiny[i]=rats);
+      starv[i]=0;
+      tinyv[i]=0;
+      var rats=createDiv(5, 5);
+      rats.style.backgroundColor="transparent";
+      rats.style.visibility="hidden";
+      rats.style.zIndex="999";
+      var rlef=createDiv(1, 5);
+      var rdow=createDiv(5, 1);
+      rats.appendChild(rlef);
+      rats.appendChild(rdow);
+      rlef.style.top="2px";
+      rlef.style.left="0px";
+      rdow.style.top="0px";
+      rdow.style.left="2px";
+      document.body.appendChild(star[i]=rats);
+    }
+    set_width();
+    sparkle();
+  }}
+  
+  function sparkle() {
+    var c;
+    if (Math.abs(x-ox)>1 || Math.abs(y-oy)>1) {
+      ox=x;
+      oy=y;
+      for (c=0; c<sparkles; c++) if (!starv[c]) {
+        star[c].style.left=(starx[c]=x)+"px";
+        star[c].style.top=(stary[c]=y+1)+"px";
+        star[c].style.clip="rect(0px, 5px, 5px, 0px)";
+        star[c].childNodes[0].style.backgroundColor=star[c].childNodes[1].style.backgroundColor=(colour=="random")?newColour():colour;
+        star[c].style.visibility="visible";
+        starv[c]=50;
+        break;
+      }
+    }
+    for (c=0; c<sparkles; c++) {
+      if (starv[c]) update_star(c);
+      if (tinyv[c]) update_tiny(c);
+    }
+    setTimeout("sparkle()", 40);
+  }
+  
+  function update_star(i) {
+    if (--starv[i]==25) star[i].style.clip="rect(1px, 4px, 4px, 1px)";
+    if (starv[i]) {
+      stary[i]+=1+Math.random()*3;
+      starx[i]+=(i%5-2)/5;
+      if (stary[i]<shigh+sdown) {
+        star[i].style.top=stary[i]+"px";
+        star[i].style.left=starx[i]+"px";
+      }
+      else {
+        star[i].style.visibility="hidden";
+        starv[i]=0;
+        return;
+      }
+    }
+    else {
+      tinyv[i]=50;
+      tiny[i].style.top=(tinyy[i]=stary[i])+"px";
+      tiny[i].style.left=(tinyx[i]=starx[i])+"px";
+      tiny[i].style.width="2px";
+      tiny[i].style.height="2px";
+      tiny[i].style.backgroundColor=star[i].childNodes[0].style.backgroundColor;
+      star[i].style.visibility="hidden";
+      tiny[i].style.visibility="visible"
+    }
+  }
+  
+  function update_tiny(i) {
+    if (--tinyv[i]==25) {
+      tiny[i].style.width="1px";
+      tiny[i].style.height="1px";
+    }
+    if (tinyv[i]) {
+      tinyy[i]+=1+Math.random()*3;
+      tinyx[i]+=(i%5-2)/5;
+      if (tinyy[i]<shigh+sdown) {
+        tiny[i].style.top=tinyy[i]+"px";
+        tiny[i].style.left=tinyx[i]+"px";
+      }
+      else {
+        tiny[i].style.visibility="hidden";
+        tinyv[i]=0;
+        return;
+      }
+    }
+    else tiny[i].style.visibility="hidden";
+  }
+  
+  document.onmousemove=mouse;
+  function mouse(e) {
+    if (e) {
+      y=e.pageY;
+      x=e.pageX;
+    }
+    else {
+      set_scroll();
+      y=event.y+sdown;
+      x=event.x+sleft;
+    }
+  }
+  
+  window.onscroll=set_scroll;
+  function set_scroll() {
+    if (typeof(self.pageYOffset)=='number') {
+      sdown=self.pageYOffset;
+      sleft=self.pageXOffset;
+    }
+    else if (document.body && (document.body.scrollTop || document.body.scrollLeft)) {
+      sdown=document.body.scrollTop;
+      sleft=document.body.scrollLeft;
+    }
+    else if (document.documentElement && (document.documentElement.scrollTop || document.documentElement.scrollLeft)) {
+      sleft=document.documentElement.scrollLeft;
+      sdown=document.documentElement.scrollTop;
+    }
+    else {
+      sdown=0;
+      sleft=0;
+    }
+  }
+  
+  window.onresize=set_width;
+  function set_width() {
+    var sw_min=999999;
+    var sh_min=999999;
+    if (document.documentElement && document.documentElement.clientWidth) {
+      if (document.documentElement.clientWidth>0) sw_min=document.documentElement.clientWidth;
+      if (document.documentElement.clientHeight>0) sh_min=document.documentElement.clientHeight;
+    }
+    if (typeof(self.innerWidth)=='number' && self.innerWidth) {
+      if (self.innerWidth>0 && self.innerWidth<sw_min) sw_min=self.innerWidth;
+      if (self.innerHeight>0 && self.innerHeight<sh_min) sh_min=self.innerHeight;
+    }
+    if (document.body.clientWidth) {
+      if (document.body.clientWidth>0 && document.body.clientWidth<sw_min) sw_min=document.body.clientWidth;
+      if (document.body.clientHeight>0 && document.body.clientHeight<sh_min) sh_min=document.body.clientHeight;
+    }
+    if (sw_min==999999 || sh_min==999999) {
+      sw_min=800;
+      sh_min=600;
+    }
+    swide=sw_min;
+    shigh=sh_min;
+  }
+  
+  function createDiv(height, width) {
+    var div=document.createElement("div");
+    div.style.position="absolute";
+    div.style.height=height+"px";
+    div.style.width=width+"px";
+    div.style.overflow="hidden";
+    return (div);
+  }
+  
+  function newColour() {
+    var c=new Array();
+    c[0]=255;
+    c[1]=Math.floor(Math.random()*256);
+    c[2]=Math.floor(Math.random()*(256-c[1]/2));
+    c.sort(function(){return (0.5 - Math.random());});
+    return ("rgb("+c[0]+", "+c[1]+", "+c[2]+")");
+  }
+  // ]]>
+  </script>
+
+
+</head>
+<body>
+    <!--header-->
+    <div class="container">
+      <nav>
+            <div class="top">
+                <h1 class="text">Works of Aci</h1>
+            </div>
+            <div class="navi1">
+              <div class="navi1">
+                <a class="link" href="profile.html">About me</a>
+                <a class="link" href="Home.html">Page 1</a>
+                <a class="link" href="Page.html">Page 2</a>
+                <a class="link" href="three.html">Page 3</a>
+                <a class="link"href="guestbook.html">Guestbook</a>
+                <a class="link"href="index.html">Back</a>
+            </div>
+          </nav>
+    
+
+        </div>
+
+<div class="tabs">
+                 <input type="radio" name="tabs" id="tabone" checked="checked">
+          <label for="tabone">Soft Girl</label>
+          <div class="tab">
+            
+  <h4>Soft Girl</h4>
+            Soft girl has smooth curves instead of hard points, 
+            <br>so your hands won't get cut when you caress on her joints.
+            <br>    Soft girl has extra kindness in her pinky and her thumb because 
+            <br>   Soft girl knows violence, 
+            <br>   for violence is where she came from. 
+                
+            <br>You fell in love with Soft girl and softer she became. 
+            <br>   You made her fall in love with the sound of her own name. 
+            <br>   But while Soft girl has always been easy to chew, 
+            <br>    she wonders if her love is too easy for you. 
+            <br>   Soft girl is a swan, a beauty from within, 
+            <br>   but pluck all her feathers and you'll reveal chicken skin. 
+                
+            <br>Would you touch her body the same way you touch her now? 
+            <br>   If she did not bother to sand her skin down, 
+            <br>   if she were filled with scratches like the walls of her old house 
+            <br>   that echo with the screams, she never lets out. 
+            <br>   She is still a soft girl, 
+            <br>    but she has a rough history 
+            <br>   and what if her past didn't want to stay a mystery? 
+
+              
+            <br> There are a million different versions of one single person. 
+            <br>    If you can love her as a blessing, 
+            <br>    you must love her as a burden, 
+            <br>    but a tear in her silky sheets was all it took to stop
+            <br>    You couldn't handle, soft girl. 
+            <br>    I guess you were too soft.
+          </div>   
+ <input type="radio" name="tabs" id="tabtwo">
+          <label for="tabtwo">Lit Up</label>
+          <div class="tab">
+            <h4>Lit Up</h4>
+            My world was lit on fire. 
+           <br> My life is like a tire
+           <br>   Burning red miracles
+           <br>  Turning countless circles
+           
+           <br>   Had alot of friends
+           <br>  But everything eventually ends
+           <br>  Had an authentic lover
+           <br>  But soon things will be over
+           
+           <br>  But the memories;
+           <br>  We collect as time flees
+           <br>  We could only look back
+           <br>  Never fulfill what we lack
+           
+           <br>  We only live in the moment
+           <br>  Receive love only if its to be meant
+           <br>  If you are empty
+           <br>  Youre a "nobody"
+           
+           <br>  Now i understand why
+           <br>  People lit my up high
+           <br>  Remember when my world was on fire? 
+           <br>  Now it'll soon retire
+          </div>
+          <input type="radio" name="tabs" id="tabthree">
+          <label for="tabthree">Too Nice</label>
+          <div class="tab">
+            <h4>Too Nice</h4>
+              Im too nice to people
+              <br>  Why do I forget that they don't give a crap? 
+              <br>  Why do I walk on eggshells and nails and still be the one to pay for that? 
+              <br>  Why am I so obsessed with other people's well-being? 
+              <br>  Well, I'm just being a decent human being 
+              <br>  but the standard of humanity is now on the floor 
+              <br>  I give them my all and they head for the door. 
+              <br>  They drain me of my worth and they still ask for more
+              
+              <br>  I'm too nice to people. 
+              <br>  Why did I believe them when they said they'd be my friend? 
+              <br>  Maybe I'm just scared of being alone in the end 
+              <br>  Or maybe I just have basic manners 
+              <br>  I treat them with respect, 
+              <br>  but that doesn't matter. 
+              <br>  They say it costs nothing to be kind 
+
+            <br>  But we live in a world where even kindness is fined. 
+            <br>  The economy of decency is quick to recede
+            <br>  But those rich with selfishness are not guilty, they plead
+            <br>  So screw those who taught me to have principles 
+            <br>  When the principle of society is to adjust to its criminals 
+            <br>  Kindness has become my greatest vice 
+            <br>  I hate to stoop down to your level
+            <br>  But I am done being nice
+        </div>
+
+</body>
+<body>
+  <container class="pix">
+         <div class="wrapper">
+            <img src="pics/heart.gif">
+            <img src="pics/4.jpg">
+            <img src="pics/1.jpg">
+            <img src="pics/3.jpg">
+          </div>
+<div>
+  <container class="para">
+            <h5 class="para">My Paraluman Artworks</h5>
+  </container>
+</div>
+         
+  </container> 
+<section class="tihi">
+  <div class="music-player">
+    <div class="song-info">
+      <h5 class="par">Paraluman</h5>
+      <p class="adie">Adie</p>
+    </div>
+<audio src="music/ins.mp3" controls autoplay loop>
+</audio>
+</section>
+
+<div>
+  <container class="cat">
+  <img src="pics/cat.gif" class="cat" >
+</container>
+</div>
+<div>
+  <container class="pink">
+  <img src="pics/pink.gif" >
+</container>
+</div>
+</div>
+</body>
+
+
+
+
+</html>
